@@ -187,11 +187,11 @@ func addIndomie() {
 		fmt.Print("Stock: ")
 		fmt.Scan(&stock)
 
-		if price < 1 {
+		if stock < 1 {
 			fmt.Println("Stock can't be less than 0")
 		}
 
-		if price > 1000 {
+		if stock > 1000 {
 			fmt.Println("Stock	 can't be greater than 1000")
 		}
 	}
@@ -245,14 +245,24 @@ func orderIndomie() {
 			switch n := noodle.(type) {
 			case BoiledNoodle:
 				if n.flavor == flavor {
-					isNoodleExist = true
-					foundNoodle = n
+					if n.stock > 0 {
+						isNoodleExist = true
+						foundNoodle = n
+					} else {
+						fmt.Println("Indomie out of stock")
+					}
+
 					break
 				}
 			case FriedNoodle:
 				if n.flavor == flavor {
-					isNoodleExist = true
-					foundNoodle = n
+					if n.stock > 0 {
+						isNoodleExist = true
+						foundNoodle = n
+					} else {
+						fmt.Println("Indomie out of stock")
+					}
+
 					break
 				}
 			}
@@ -291,16 +301,20 @@ func orderIndomie() {
 	}
 
 	var selectedNoodle Noodle
-	for _, noodle := range noodleList {
+	for i, noodle := range noodleList {
 		switch n := noodle.(type) {
 		case BoiledNoodle:
 			if n.flavor == flavor {
 				selectedNoodle = noodle
+				n.stock--
+				noodleList[i] = n
 				break
 			}
 		case FriedNoodle:
 			if n.flavor == flavor {
 				selectedNoodle = noodle
+				n.stock--
+				noodleList[i] = n
 				break
 			}
 		}
