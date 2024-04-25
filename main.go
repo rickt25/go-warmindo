@@ -60,36 +60,3 @@ func printMenu() {
 	fmt.Println("| 0. Exit             |")
 	fmt.Println("=======================")
 }
-
-//
-//func printOrderList() {
-//	if len(orderList) == 0 {
-//		fmt.Println("No orders yet")
-//		return
-//	}
-//
-//	fmt.Println("================================================")
-//	fmt.Println(" TRANSACTION LIST")
-//	fmt.Println("================================================")
-//	for i, order := range orderList {
-//		fmt.Println(" Order", i+1)
-//		fmt.Println(" Noodle:")
-//		for _, noodle := range noodleList {
-//			if noodle == order.noodle {
-//				switch n := noodle.(type) {
-//				case BoiledNoodle:
-//					fmt.Println("\tIndomie Rebus", n.flavor)
-//				case FriedNoodle:
-//					fmt.Println("\tIndomie Goreng", n.flavor)
-//				}
-//			}
-//		}
-//		fmt.Println(" Toppings:")
-//		for _, topping := range order.toppings {
-//			fmt.Printf("\t- %s\n", topping.name)
-//		}
-//		fmt.Println(" Spice Level:", order.spiceLevel)
-//		fmt.Println(" Order Total:", order.calculateTotal())
-//		fmt.Println("================================================")
-//	}
-//}
