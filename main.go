@@ -5,11 +5,6 @@ import (
 	"warmindoProject/services"
 )
 
-type Topping struct {
-	name  string
-	price uint64
-}
-
 var EXIT_MENU_NUMBER int = 0
 
 func main() {
