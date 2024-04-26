@@ -84,12 +84,14 @@ func (orderService *OrderService) chooseNoodleFlavor(menuService *MenuService) s
 }
 
 func (orderService *OrderService) chooseSpiceLevel() int {
+	MIN_SPICE_LEVEL, MAX_SPICE_LEVEL := 0, 5
+
 	spiceLevel := -1
 	for spiceLevel < 0 || spiceLevel > 5 {
-		fmt.Print("Choose Spice Level (0 to 5): ")
+		fmt.Printf("Choose Spice Level (%d to %d): ", MIN_SPICE_LEVEL, MAX_SPICE_LEVEL)
 		fmt.Scan(&spiceLevel)
-		if spiceLevel < 0 || spiceLevel > 5 {
-			fmt.Println("Spice Level only from 0 to 5")
+		if spiceLevel < MIN_SPICE_LEVEL || spiceLevel > MAX_SPICE_LEVEL {
+			fmt.Printf("Spice Level only from %d to %d\n", MIN_SPICE_LEVEL, MAX_SPICE_LEVEL)
 		}
 	}
 	return spiceLevel
@@ -98,10 +100,10 @@ func (orderService *OrderService) chooseSpiceLevel() int {
 func (orderService *OrderService) chooseToppings(toppingService *ToppingService) []models.NoodleTopping {
 	var toppings []models.NoodleTopping
 	toppingService.PrintToppings()
-	fmt.Println("Choose Toppings (enter 0 to finish):")
+	fmt.Println("Choose Toppings by number (enter 0 to finish):")
 	for {
 		var toppingIndex int
-		fmt.Print("Topping Index: ")
+		fmt.Print("Topping Number: ")
 		fmt.Scan(&toppingIndex)
 		if toppingIndex == 0 {
 			break
@@ -110,7 +112,7 @@ func (orderService *OrderService) chooseToppings(toppingService *ToppingService)
 			fmt.Println(toppingService.toppings[toppingIndex-1].Name, "added.")
 			toppings = append(toppings, toppingService.toppings[toppingIndex-1])
 		} else {
-			fmt.Println("Invalid topping index")
+			fmt.Println("Invalid topping number")
 		}
 	}
 	return toppings
