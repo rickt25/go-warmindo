@@ -9,12 +9,15 @@ type FriedNoodle struct {
 	Flavor     string
 	Price      uint64
 	Stock      uint16
-	Toppings   []NoodleTopping
 	SpiceLevel int
 }
 
 func (n FriedNoodle) GetName() string {
 	return "Indomie Goreng " + n.Flavor
+}
+
+func (n FriedNoodle) GetFlavor() string {
+	return n.Flavor
 }
 
 func (n FriedNoodle) GetPrice() uint64 {
@@ -26,7 +29,7 @@ func (n FriedNoodle) GetStock() uint16 {
 }
 
 func (n FriedNoodle) Cook() {
-	fmt.Printf("Cooking %s...\n", n.GetName())
+	fmt.Printf("Frying %s...\n", n.GetName())
 	time.Sleep(2 * time.Second)
 	fmt.Println("Cooking done.", n.GetName())
 }
@@ -47,12 +50,4 @@ func (n FriedNoodle) ReduceStock(amount int) {
 		return
 	}
 	n.Stock -= uint16(amount)
-}
-
-func (n FriedNoodle) AddTopping(topping NoodleTopping) {
-	n.Toppings = append(n.Toppings, topping)
-}
-
-func (n FriedNoodle) GetToppings() []NoodleTopping {
-	return n.Toppings
 }

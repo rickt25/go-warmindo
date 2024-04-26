@@ -16,6 +16,7 @@ func NewOrderService() *OrderService {
 func (orderService *OrderService) PlaceOrder(menuService *MenuService, toppingService *ToppingService) {
 	order := orderService.createOrder(menuService, toppingService)
 	orderService.addToOrderList(order)
+	order.Menu.Cook()
 	orderService.printReceipt(order)
 }
 
@@ -66,13 +67,10 @@ func (orderService *OrderService) chooseNoodleFlavor(menuService *MenuService) s
 		fmt.Scan(&flavor)
 		for _, item := range menuService.menuItems {
 			switch noodle := item.(type) {
-			case models.BoiledNoodle:
-				if noodle.Flavor == flavor {
+			case models.BoiledNoodle, models.FriedNoodle:
+				if noodle.GetFlavor() == flavor {
 					isNoodleExist = true
-				}
-			case models.FriedNoodle:
-				if noodle.Flavor == flavor {
-					isNoodleExist = true
+					break
 				}
 			}
 		}
@@ -121,17 +119,14 @@ func (orderService *OrderService) chooseToppings(toppingService *ToppingService)
 func (orderService *OrderService) getSelectedNoodle(menuService *MenuService, flavor string) models.MenuItem {
 	var selectedNoodle models.MenuItem
 	for i, item := range menuService.menuItems {
-		switch noodle := item.(type) {
-		case models.BoiledNoodle:
-			if noodle.Flavor == flavor {
-				selectedNoodle = noodle
-				noodle.Stock--
-				menuService.menuItems[i] = noodle
+		switch item.(type) {
+		case models.BoiledNoodle, models.FriedNoodle:
+			noodle, ok := item.(models.MenuItem)
+			if !ok {
+				continue
 			}
-		case models.FriedNoodle:
-			if noodle.Flavor == flavor {
+			if noodle.GetFlavor() == flavor {
 				selectedNoodle = noodle
-				noodle.Stock--
 				menuService.menuItems[i] = noodle
 			}
 		}
